@@ -32,7 +32,7 @@ if SERVER then
 		if (phys:IsValid()) then
 			phys:EnableMotion(false)
 		end
-		if ValidEntity(other) then
+		if IsValid(other) then
 			ent:SetNWEntity("other",other)
 			other:SetNWEntity("other",ent)
 			other = nil
@@ -62,7 +62,7 @@ if SERVER then
 			return
 		end
 		local other = self:GetNWEntity"other"
-		if not ValidEntity(other) then return end
+		if not IsValid(other) then return end
 		local pos = self:GetPos()
 		local pos2 = other:GetPos()
 		if pos.z < pos2.z then
@@ -81,7 +81,7 @@ local Laser = Material( "cable/redlaser" )
 function ENT:Draw()
 	self:DrawModel()
 	local other = self:GetNWEntity"other"
-	if not ValidEntity(other) then return end
+	if not IsValid(other) then return end
 	local pos = self:GetPos()
 	local pos2 = other:GetPos()
 	if (pos ~= self.pos1 or pos2 ~= self.pos2) then

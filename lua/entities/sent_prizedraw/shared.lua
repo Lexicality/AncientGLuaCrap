@@ -61,7 +61,7 @@ if SERVER then
 			
 	return
 end
-surface.CreateFont("Lucida Console",15,400,true,false,"breachtxt")
+surface.CreateFont("breachtxt", {font="Lucida Console",size=15,weight=400})
 function ENT:Draw()
 	self:DrawModel()
 	local ang = self:GetAngles()

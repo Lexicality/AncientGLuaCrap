@@ -12,7 +12,7 @@ function ENT:SpawnFunction( ply, tr )
 	if (phys:IsValid()) then
 		phys:EnableMotion(false)
 	end
-	if ValidEntity(other) then
+	if IsValid(other) then
 		ent:SetDTInt(0,2);
 		ent:SetDTEntity(0,other);
 		other:SetDTEntity(0,ent);

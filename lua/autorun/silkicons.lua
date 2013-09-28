@@ -1,5 +1,5 @@
-if SERVER and not SinglePlayer() then
-		AddCSLuaFile("autorun/cl_silkicons.lua")
+if SERVER and not game.SinglePlayer() then
+	AddCSLuaFile("autorun/cl_silkicons.lua")
 	resource.AddFile( "materials/gui/silkicons/accept.vmt" )
 	resource.AddFile( "materials/gui/silkicons/accept.vtf" )
 	resource.AddFile( "materials/gui/silkicons/add.vmt" )

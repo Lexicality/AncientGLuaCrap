@@ -65,7 +65,7 @@ end
 local rot = Vector(-90, 90, 10)
 local w,h = 200,160
 --local w,h = 2000,2000
-surface.CreateFont("Lucinda Console",30,400,true,false,"ticker_font")
+surface.CreateFont("ticker_font",{font="Lucinda Console",size=30,weight=400})
 local mat = surface.GetTextureID"effects/tvscreen_noise003a"
 function ENT:CheckTextLength(text)
 	surface.SetFont("ticker_font")
@@ -124,8 +124,8 @@ function ENT:Draw()
 			local	v  = 10
 			for i = 0,w2-2 do
 				local	ct  = CurTime()*10+i
-				local	dt2 = math.Deg2Rad(ct+1)*v
-				local	dt  = math.Deg2Rad(ct)  *v
+				local	dt2 = math.rad(ct+1)*v
+				local	dt  = math.rad(ct)  *v
 				local	ct2 = math.sin(dt2)
 						ct  = math.sin(dt )
 				surface.DrawLine(-w/2+i+1,ct2*1.0*h/4	,-w/2+i, ct*0.5*h/4 - 1)
@@ -136,13 +136,13 @@ function ENT:Draw()
 		end
 		--]]
 		surface.SetDrawColor(100,123,255,255)
-		surface.DrawRect	(-w/2,			-h/8,		w/8, -1*math.abs((-1-math.sin(math.Deg2Rad(CurTime()*30)))*h/4+h/8))
+		surface.DrawRect	(-w/2,			-h/8,		w/8, -1*math.abs((-1-math.sin(math.rad(CurTime()*30)))*h/4+h/8))
 		surface.SetDrawColor(255,100,123,255)
 		surface.DrawRect	(-w/2+w/8,		-h/8,		w/8, -h/16)
-		surface.DrawRect	(-w/2+w/8,		-h/8-h/16,	w/8, -math.abs(math.cos(math.Deg2Rad(CurTime()*20))*h/8+h/8))
+		surface.DrawRect	(-w/2+w/8,		-h/8-h/16,	w/8, -math.abs(math.cos(math.rad(CurTime()*20))*h/8+h/8))
 		surface.SetDrawColor(124, 212, 012, 255)
 		surface.DrawRect	(-w/2+w/8+w/8,	-h/8,		w/8, -h/8+h/16)
-		surface.DrawRect	(-w/2+w/8+w/8,	-h/8-h/8+h/16,	w/8, -math.abs(math.cos(math.Deg2Rad(CurTime()*40))*h/16+h/8))
+		surface.DrawRect	(-w/2+w/8+w/8,	-h/8-h/8+h/16,	w/8, -math.abs(math.cos(math.rad(CurTime()*40))*h/16+h/8))
 		
 		surface.SetDrawColor(225, 225, 225, 255)
 		surface.DrawOutlinedRect(-w/2,h/2-30,w,30)

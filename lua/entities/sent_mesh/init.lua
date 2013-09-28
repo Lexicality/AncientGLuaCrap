@@ -4,36 +4,36 @@ AddCSLuaFile"cl_init.lua"
 local meshes = {}
 local targetpoint = nil
 local function selectpoint(ent)
-	if not ValidEntity(targetpoint) then
+	if not IsValid(targetpoint) then
 		repeat
 			if table.Count(meshes) == 0 then
 				targetpoint = ent
 				break
 			end
 			targetpoint = table.Random(meshes)
-			if not ValidEntity(targetpoint) and targetpoint ~= nil then
+			if not IsValid(targetpoint) and targetpoint ~= nil then
 				meshes[targetpoint] = nil
 			end
-		until ValidEntity(targetpoint)
+		until IsValid(targetpoint)
 		if targetpoint ~= ent then
 			return selectpoint(ent)
 		end
-	elseif not ValidEntity(targetpoint._corners.n) then
+	elseif not IsValid(targetpoint._corners.n) then
 		targetpoint._corners.n = ent
 		ent._corners.s = targetpoint
 		ent.target = targetpoint
 		ent.targetpoint = Vector(100,0,0)
-	elseif not ValidEntity(targetpoint._corners.e) then
+	elseif not IsValid(targetpoint._corners.e) then
 		targetpoint._corners.e = ent
 		ent._corners.w = targetpoint
 		ent.target = targetpoint
 		ent.targetpoint = Vector(0,100,0)
-	elseif not ValidEntity(targetpoint._corners.s) then
+	elseif not IsValid(targetpoint._corners.s) then
 		targetpoint._corners.s = ent
 		ent._corners.n = targetpoint
 		ent.target = targetpoint
 		ent.targetpoint = Vector(-100,0,0)
-	elseif not ValidEntity(targetpoint._corners.w) then
+	elseif not IsValid(targetpoint._corners.w) then
 		targetpoint._corners.w = ent
 		ent._corners.e = targetpoint
 		ent.target = targetpoint
@@ -53,7 +53,7 @@ function ENT:SpawnFunction( ply, tr )
 	ent._corners = {}
 	selectpoint(ent)
 	meshes[ent] = ent
-	if ent.targetpoint and ValidEntity(ent.target) then
+	if ent.targetpoint and IsValid(ent.target) then
 		ent:GetNeighbors(ent.target:GetPos()+ent.targetpoint)
 	end
 	local phys = ent:GetPhysicsObject()
@@ -101,7 +101,7 @@ function ENT:ToggleMotion()
 end
 local vector0 = Vector(0,0,0)
 function ENT:GetNeighbors(pos)
-	if not ValidEntity(self._corners.n) then
+	if not IsValid(self._corners.n) then
 		for _,ent in ipairs(ents.FindInSphere(pos+Vector(100,0,0),5)) do
 			if ent:GetClass() == self:GetClass() then
 				self._corners.n = ent
@@ -109,7 +109,7 @@ function ENT:GetNeighbors(pos)
 			end
 		end
 	end
-	if not ValidEntity(self._corners.e) then
+	if not IsValid(self._corners.e) then
 		for _,ent in ipairs(ents.FindInSphere(pos+Vector(0,100,0),5)) do
 			if ent:GetClass() == self:GetClass() then
 				self._corners.e = ent
@@ -117,7 +117,7 @@ function ENT:GetNeighbors(pos)
 			end
 		end
 	end
-	if not ValidEntity(self._corners.s) then
+	if not IsValid(self._corners.s) then
 		for _,ent in ipairs(ents.FindInSphere(pos+Vector(-100,0,0),5)) do
 			if ent:GetClass() == self:GetClass() then
 				self._corners.s = ent
@@ -125,7 +125,7 @@ function ENT:GetNeighbors(pos)
 			end
 		end
 	end
-	if not ValidEntity(self._corners.w) then
+	if not IsValid(self._corners.w) then
 		for _,ent in ipairs(ents.FindInSphere(pos+Vector(0,-100,0),5)) do
 			if ent:GetClass() == self:GetClass() then
 				self._corners.w = ent
@@ -135,23 +135,23 @@ function ENT:GetNeighbors(pos)
 	end
 end
 function ENT:ConstrainNeighbors()
-	if ValidEntity(self._corners.n) then
+	if IsValid(self._corners.n) then
 		constraint.Rope(self,self._corners.n,0,0,vector0,vector0,self:GetPos():Distance(self._corners.n:GetPos()),0,0,10,"cable/redlaser",true)
 	end
-	if ValidEntity(self._corners.e) then
+	if IsValid(self._corners.e) then
 		constraint.Rope(self,self._corners.e,0,0,vector0,vector0,self:GetPos():Distance(self._corners.e:GetPos()),0,0,10,"cable/redlaser",true)
 	end
-	if ValidEntity(self._corners.s) then
+	if IsValid(self._corners.s) then
 		constraint.Rope(self,self._corners.s,0,0,vector0,vector0,self:GetPos():Distance(self._corners.s:GetPos()),0,0,10,"cable/redlaser",true)
 	end
-	if ValidEntity(self._corners.w) then
+	if IsValid(self._corners.w) then
 		constraint.Rope(self,self._corners.w,0,0,vector0,vector0,self:GetPos():Distance(self._corners.w:GetPos()),0,0,10,"cable/redlaser",true)
 	end
 end
 function ENT:PhysicsSimulate(phys,deltatime)
 	phys:Wake()
 	local pos = self:GetPos()
-	if not (self.targetpoint and ValidEntity(self.target))then
+	if not (self.targetpoint and IsValid(self.target))then
 	
 		self:ToggleMotion()
 		return
@@ -162,7 +162,7 @@ function ENT:PhysicsSimulate(phys,deltatime)
 	and math.floor(pos.z) == math.floor(target.z) then
 		self:SetPos(target)
 		self:ToggleMotion()
-		if ValidEntity(self.target) then
+		if IsValid(self.target) then
 			timer.Simple(0.01,function()
 				self:GetNeighbors(self:GetPos())
 				self:ConstrainNeighbors()

@@ -38,7 +38,7 @@ if SERVER then
 	return
 end
 local rot = Vector(0, -90, 0)
-surface.CreateFont("Impact",30,400,true,false,"Impact")
+surface.CreateFont("Impact",{size=30,weight=400,font="Impact"})
 function ENT:Draw()
 	--self:DrawModel()
 	local lightdata = render.GetLightColor(self:GetPos())

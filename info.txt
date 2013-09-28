@@ -1,0 +1,11 @@
+"AddonInfo"
+{
+	"name"		"Lexi's Dev Stuff"
+	"version"	"1"
+	"up_date"	"21/09/2010"
+	"author_name"	"Lexi"
+	"author_email"	"lexi@lexi.org.uk"
+	"author_url"	"lexi.org.uk"
+	"info"		"Loads of shit I've made over the years"
+	"override"	"0"
+}

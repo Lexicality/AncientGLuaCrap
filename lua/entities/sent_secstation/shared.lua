@@ -22,6 +22,7 @@ local cams = {
 	[7] = {"QMaster",Angle(18,  036, 0),Vector(-8120.1514, -9176.4580, 1850.2092)},
 	[8] = {"Stairs" ,Angle(037, 139, 0),Vector(-6637.8105, -9235.8037, 2726.3408)},	
 }
+
 if SERVER then
 	local function mySetupVis(ply)
 		--print("Setting up "..tostring(ply).."'s vis!")
@@ -46,7 +47,7 @@ if SERVER then
 	end 
 
 	function ENT:Initialize()
-		self:SetModel   ( "models/u4lab/ceiling_monitor_a.mdl")
+		self:SetModel   ( "models/props_borealis/bluebarrel001.mdl")
 		self:PhysicsInit( SOLID_VPHYSICS		)
 		self:SetMoveType( MOVETYPE_VPHYSICS	)
 		self:SetSolid   ( SOLID_VPHYSICS		)
@@ -71,8 +72,9 @@ if SERVER then
 	end
 	return
 end
+
 function ENT:C()
-	return self:GetNWInt"c"
+	return self:GetNWInt("c",1)
 end
 
 local rot		= Vector(-90, 90, 15)
@@ -86,19 +88,20 @@ local rt		= GetRenderTarget(		"Testies",512,512)
 local mot		= Material				"testies"
 local screentx	= surface.GetTextureID	"blib"
 local poly		= {
-					[1] = {x=-w2/2,y=-h2/2,u=0.025,v=0.002},
-					[2] = {x= w2/2,y=-h2/2,u=0.985,v=0.001},
-					[4] = {x=-w2/2,y= h2/2,u=0.025,v=0.210},
-					[3] = {x= w2/2,y= h2/2,u=0.985,v=0.210},
-				}-- Seriously, I sacrafice sensibleness for prettyness hurf durf
+	[1] = {x=-w2/2,y=-h2/2,u=0.025,v=0.002},
+	[2] = {x= w2/2,y=-h2/2,u=0.985,v=0.001},
+	[4] = {x=-w2/2,y= h2/2,u=0.025,v=0.210},
+	[3] = {x= w2/2,y= h2/2,u=0.985,v=0.210},
+}-- Seriously, I sacrafice sensibleness for prettyness hurf durf
 
 --lua_run Entity(1):SetPos(Vector(-6549.9033, -9231.4844, 840.0313))
 
 local	CamData   = {}
-		CamData.x = 0
-		CamData.y = 0
-		CamData.w = w * 5
-		CamData.h = h * 5
+CamData.x = 0
+CamData.y = 0
+CamData.w = w * 5
+CamData.h = h * 5
+
 ENT.blib = -64
 function ENT:Draw()
 	self:DrawModel()
@@ -108,11 +111,11 @@ function ENT:Draw()
 	CamData.angles.y	= CamData.angles.y + math.sin(CurTime()*0.5) * 10 -- Make the cam slowly turn
 	CamData.origin		= cams[self:C()][3]
 	local OldRT			= render.GetRenderTarget()
-	mot:SetMaterialTexture	( "$basetexture", rt )
-	render.SetRenderTarget	( rt				 )
-	render.ClearDepth		(					 )
-	render.RenderView		( CamData			 )
-	render.SetRenderTarget	( OldRT 			 )
+	mot:SetTexture	( "$basetexture", rt )
+	render.SetRenderTarget	( rt )
+	render.ClearDepth		()
+	render.RenderView		( CamData )
+	render.SetRenderTarget	( OldRT )
 	cams[self:C()][2].y	= savedy
 	
 	local ang = self:GetAngles()
@@ -172,9 +175,10 @@ function ENT:Draw()
 		end
 	cam.End3D2D()	
 end
+
 hook.Remove("HUDPaint","tv")
 hook.Add("HUDPaint","tv",function()
-	if not ValidEntity(LocalPlayer().Cammin) then return end
+	if not IsValid(LocalPlayer().Cammin) then return end
 	local w,h = ScrW(),ScrH()
 	surface.SetDrawColor(255,255,255,1)
 	surface.SetTexture(mat)

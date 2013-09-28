@@ -44,7 +44,7 @@ if SERVER then
 	return
 end
 for i = 50,25,-1 do
-	surface.CreateFont("Impact", i*2, 400, true,false, "bb"..i )
+	surface.CreateFont("bb"..i, {font="Impact", size=i*2, weight=400})
 end
 local rot = Vector(-90, 90, 0)
 ENT.Scale	  = 0.1

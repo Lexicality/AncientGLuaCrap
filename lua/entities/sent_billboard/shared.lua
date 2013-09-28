@@ -16,7 +16,7 @@ if SERVER then
 	AddCSLuaFile( "shared.lua" )
 	AddCSLuaFile( "cl_init.lua" )
 	function ENT:SpawnFunction( ply, tr )
-		if not ( tr.Hit and ValidEntity(tr.Entity) and tr.Entity:GetModel():find"billboard") then return end
+		if not ( tr.Hit and IsValid(tr.Entity) and tr.Entity:GetModel():find"billboard") then return end
 		local ent = ents.Create"sent_billboard"
 		ent:SetPos( tr.Entity:GetPos() + tr.Entity:GetForward() * 3)
 		ent:SetAngles( tr.Entity:GetAngles() )
@@ -47,7 +47,7 @@ if SERVER then
 	return
 end
 for i = 50,25,-1 do
-	surface.CreateFont("Impact", i*2, 400, true,false, "bb"..i )
+	surface.CreateFont("bb"..i, {font="Impact", size=i*2, weight=400})
 end
 local rot = Vector(-90, 90, 0)
 ENT.Scale	  = 0.5

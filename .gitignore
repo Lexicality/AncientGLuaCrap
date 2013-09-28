@@ -1,0 +1,10 @@
+*.sublime-*
+*.lnk
+*~
+._*
+.DS_Store
+.svn
+.cvs
+*.bak
+*.swp
+Thumbs.db
